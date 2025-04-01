@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERSONAL TENNIS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 60%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Agende Sua Aula de Tênis</h2>
+  <form id="agendamentoForm">
+    <label for="quadra">Selecione a Quadra:</label>
+    <select id="quadra">
+      <option value="1">Quadra 1</option>
+      <option value="2">Quadra 2</option>
+    </select>
+
+    <label for="professor">Selecione o Professor:</label>
+    <select id="professor">
+      <option value="Professor A">Professor A</option>
+      <option value="Professor B">Professor B</option>
+    </select>
+
+    <label for="horario">Escolha o Horário:</label>
+    <input type="datetime-local" id="horario" required>
+
+    <label for="duracao">Duração (em minutos):</label>
+    <input type="number" id="duracao" min="30" value="60" required>
+
+    <button type="submit">Agendar Aula</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const quadra = document.getElementById('quadra').value;
+    const professor = document.getElementById('professor').value;
+    const horario = document.getElementById('horario').value;
+    const duracao = document.getElementById('duracao').value;
+
+    fetch('/agendar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        quadra: quadra,
+        professor: professor,
+        horario: horario,
+        duracao: duracao
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert('Aula agendada com sucesso!');
+    })
+    .catch(error => {
+      console.error('Erro ao agendar aula:', error);
+      alert('Erro ao agendar aula.');
+    });
+  });
+</script>
+
+</body>
+</html>
 
